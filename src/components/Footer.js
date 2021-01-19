@@ -36,6 +36,12 @@ function Footer() {
             >
               Blogs
             </Link>
+            <Link
+              to="/writearecommendation"
+              className=" text-light font-weight h6 mx-1 my-auto d-block"
+            >
+              Write a Recommendation
+            </Link>
 
             <Link to="/" className="text-light d-block">
               Home

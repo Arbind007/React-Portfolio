@@ -31,7 +31,7 @@ function App() {
           <Route exact path="/contact" component={Contact} />
           <Route
             exact
-            path="/write-a-recommendation"
+            path="/writearecommendation"
             component={WriteRecommendation}
           />
           <Route exact path="/allprojects" component={AllProjects} />
