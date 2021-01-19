@@ -1,5 +1,5 @@
 import React from "react";
-import { v4 } from "uuid";
+import { v4 as uuid } from "uuid";
 
 function Skill(props) {
   const { name, imageUrl, starsTotal, starsActive } = props.skill;
@@ -8,12 +8,12 @@ function Skill(props) {
   for (let i = 0; i < starsTotal; i++) {
     if (i < starsActive) {
       starsList.push(
-        <spam key={v4()} className="text-info">
-          ⋆
-        </spam>
+        <span key={uuid()} className="text-info">
+          ★
+        </span>
       );
     } else {
-      starsList.push(<spam key={v4()}>⋆</spam>);
+      starsList.push(<span key={uuid()}>★</span>);
     }
   }
   return (
@@ -22,12 +22,10 @@ function Skill(props) {
         className=""
         src={imageUrl}
         alt={name}
-        style={{ width: "80px", height: "100px" }}
+        style={{ width: "100px", height: "100px" }}
       />
-
-      <div className="text-center h1">{starsList}</div>
+      <div>{starsList}</div>
     </div>
   );
 }
-
 export default Skill;

@@ -18,8 +18,25 @@ function Footer() {
             <Link to="/contact" className="text-light d-block">
               Contact Me
             </Link>
-            <a href="#" className="text-light d-block"></a>
-            <a href="#" className="text-light d-block"></a>
+            <Link
+              to="/allcertificate"
+              className=" text-light font-weight h6 mx-1 my-auto d-block"
+            >
+              Certificates
+            </Link>
+            <Link
+              to="/allprojects"
+              className=" text-light font-weight h6 mx-1 my-auto d-block"
+            >
+              Projects
+            </Link>
+            <Link
+              to="/allBlogs"
+              className=" text-light font-weight h6 mx-1 my-auto d-block"
+            >
+              Blogs
+            </Link>
+
             <Link to="/" className="text-light d-block">
               Home
             </Link>

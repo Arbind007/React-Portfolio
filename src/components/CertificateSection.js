@@ -1,6 +1,8 @@
 import React from "react";
 import Certificatecard from "./CertificateCard";
 
+import { Link } from "react-router-dom";
+
 function CertificateSection() {
   const certificates = [
     {
@@ -40,12 +42,12 @@ function CertificateSection() {
           ])}
         </div>
         <div className="my-5">
-          <a href="/" className="text-dark text-right">
+          <Link to="/allcertificate" className="text-dark text-right">
             <h5>
               See more of my certificates
               <i className="fas fa-arrow-circle-right align-middle"></i>
             </h5>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

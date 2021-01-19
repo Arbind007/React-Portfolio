@@ -78,7 +78,7 @@ class Contact extends Component {
                 className="btn btn-dark float-right"
                 style={{ backgroundColor: "black" }}
               >
-                Let's talk
+                Let's talk business
               </button>
             </form>
           </div>

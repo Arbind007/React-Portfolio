@@ -1,6 +1,6 @@
 import React from "react";
 import ProjectCard from "./ProjectCard";
-import { Consumer } from "./context";
+import { Consumer } from "../context";
 import { Link } from "react-router-dom";
 
 function ProjectSection() {

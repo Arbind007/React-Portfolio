@@ -1,7 +1,13 @@
-#ram {
-  background-color: rgba(255, 255, 255, 0.85);
-}
-
 .scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.markdown img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#ram {
+  background-color: rgba(255, 255, 255, 0.85);
 }

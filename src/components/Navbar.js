@@ -21,18 +21,24 @@ function Navbar() {
         </button>
         <div className="collapse navbar-collapse flex-grow-0" id="collapseNav">
           <div className="navbar-nav">
-            <a
-              href="/"
+            <Link
+              to="/allcertificate"
               className="nav-item nav-link text-dark font-weight h6 mx-1 my-auto"
             >
-              Blogs
-            </a>
-            <a
-              href="/"
+              Certificates
+            </Link>
+            <Link
+              to="/allprojects"
               className="nav-item nav-link text-dark font-weight h6 mx-1 my-auto"
             >
               Projects
-            </a>
+            </Link>
+            <Link
+              to="/allBlogs"
+              className="nav-item nav-link text-dark font-weight h6 mx-1 my-auto"
+            >
+              Blogs
+            </Link>
           </div>
         </div>
       </div>
