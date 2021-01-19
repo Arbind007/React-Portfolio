@@ -111,7 +111,7 @@ export class Provider extends Component {
         name: "Random guy 2",
         company: "ABC company",
         designation: "Director",
-        message: "He is a lazy person",
+        message: "He is a nice person",
       },
       {
         id: 3,
