@@ -142,13 +142,6 @@ export class Provider extends Component {
         designation: "Director",
         message: "He is a nice person",
       },
-      {
-        id: 3,
-        name: "Random guy 3",
-        company: "ABC company",
-        designation: "Manager",
-        message: "He is an excellent developer",
-      },
     ],
     skills: [
       {

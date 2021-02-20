@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import img from "../resources/photo/port.jpg";
 
 function Navbar() {
   return (
     <nav className="navbar navbar-expand-sm fixed-top" id="ram">
       <div className="container my-2">
+        <img className="img-fluid rounded-circle w-30" src={img} alt="dummy" />
         <Link to="/" className="navbar-brand text-dark font-weight-bold">
           Arbind Mishra
         </Link>

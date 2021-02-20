@@ -1,19 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Main from "../resources/photo/port.jpg";
+import Main from "../resources/photo/mainport.jpg";
+import "../components/title.css";
 
 function Title(props) {
   const { name, leadText } = props;
 
   return (
-    <div className="container">
+    <div className="container hello">
       <div className="row text-center align-items-center my-5 py-5">
-        <div className="col-12 col-md-6">
-          <img
-            className="img-fluid rounded-circle w-75"
-            src={Main}
-            alt="dummy"
-          />
+        <div className="col-12 col-md-6 ">
+          <div className="hey">
+            <img
+              className="img-fluid rounded-circle w-75"
+              src={Main}
+              alt="dummy"
+            />
+          </div>
         </div>
         <div className="col-12 col-md-6 pt-5">
           <div className="font-weight-light" style={{ fontSize: "50px" }}>
