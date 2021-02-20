@@ -209,6 +209,7 @@ export class Provider extends Component {
       },
     ],
   };
+
   async componentDidMount() {
     const [
       responseRecommendations,
@@ -216,10 +217,10 @@ export class Provider extends Component {
       responseProjects,
       responseBlogs,
     ] = await Promise.all([
-      axios.get("http://127.0.0.1:9000/api/recommendations"),
-      axios.get("http://127.0.0.1:9000/api/skills"),
-      axios.get("http://127.0.0.1:9000/api/projects"),
-      axios.get("http://127.0.0.1:9000/api/blogs"),
+      axios.get(`${baseUrl}/api/recommendations`),
+      axios.get(`${baseUrl}/api/skills`),
+      axios.get(`${baseUrl}/api/projects`),
+      axios.get(`${baseUrl}/api/blogs`),
     ]);
 
     const newState = {};
@@ -262,5 +263,7 @@ export class Provider extends Component {
     );
   }
 }
+
+const baseUrl = "http://127.0.0.1:9000/";
 
 export const Consumer = Context.Consumer;
