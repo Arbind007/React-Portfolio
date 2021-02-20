@@ -9,7 +9,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ProjectPage from "./components/ProjectPage";
 import CertificatePage from "./components/CertificatePage";
 import HomePage from "./components/HomePage";
-import NotFound from "./components/NotFound";
+import NotFound from "./components/notfound";
 import BlogPage from "./components/BlogPage";
 import AddProject from "./components/AddProject";
 import AddBlog from "./components/AddBlog";

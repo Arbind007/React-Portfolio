@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import axios from "axios";
 const Context = React.createContext();
 
 export class Provider extends Component {
@@ -30,6 +30,35 @@ export class Provider extends Component {
 
   state = {
     handler: this.handler,
+    certificates: [
+      {
+        id: 1,
+        title: "Google IT Support Specialzation",
+        imageUrl: require("./components/certificates/1.png"),
+        excerpt: "This course that me a lot about basics of IT......",
+      },
+      {
+        id: 2,
+        title: "Security in Google Cloud Platform",
+        imageUrl: require("./components/certificates/2.png"),
+        excerpt:
+          "This course that me a lot about basics of Cloud Security......",
+      },
+      {
+        id: 3,
+        title: "IT fundamentals for Cyber Security",
+        imageUrl: require("./components/certificates/3.png"),
+        excerpt:
+          "This course that me a lot about basics of Cyber Security......",
+      },
+      {
+        id: 3,
+        title: "IT fundamentals for Cyber Security",
+        imageUrl: require("./components/certificates/3.png"),
+        excerpt:
+          "This course that me a lot about basics of Cyber Security......",
+      },
+    ],
     projects: [
       {
         id: 1,
@@ -120,13 +149,6 @@ export class Provider extends Component {
         designation: "Manager",
         message: "He is an excellent developer",
       },
-      {
-        id: 4,
-        name: "Random guy 4",
-        company: "ABC company",
-        designation: "SDE",
-        message: "He gets things done so quickly",
-      },
     ],
     skills: [
       {
@@ -187,6 +209,50 @@ export class Provider extends Component {
       },
     ],
   };
+  async componentDidMount() {
+    const [
+      responseRecommendations,
+      responseSkills,
+      responseProjects,
+      responseBlogs,
+    ] = await Promise.all([
+      axios.get("http://127.0.0.1:9000/api/recommendations"),
+      axios.get("http://127.0.0.1:9000/api/skills"),
+      axios.get("http://127.0.0.1:9000/api/projects"),
+      axios.get("http://127.0.0.1:9000/api/blogs"),
+    ]);
+
+    const newState = {};
+    if (
+      responseRecommendations.data.isSuccessful &&
+      responseRecommendations.data.results.length !== 0
+    ) {
+      newState.recommendations = responseRecommendations.data.results;
+    }
+
+    if (
+      responseSkills.data.isSuccessful &&
+      responseSkills.data.results.length !== 0
+    ) {
+      newState.skills = responseSkills.data.results;
+    }
+
+    if (
+      responseProjects.data.isSuccessful &&
+      responseProjects.data.results.length !== 0
+    ) {
+      newState.projects = responseProjects.data.results;
+    }
+
+    if (
+      responseBlogs.data.isSuccessful &&
+      responseBlogs.data.results.length !== 0
+    ) {
+      newState.blogs = responseBlogs.data.results;
+    }
+
+    this.setState(newState);
+  }
 
   render() {
     return (

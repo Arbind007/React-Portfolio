@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { v4 as uuid } from "uuid";
+import axios from "axios";
 
 class Contact extends Component {
   state = {
@@ -15,10 +17,22 @@ class Contact extends Component {
     });
   };
 
-  onSubmit = (event) => {
+  onSubmit = async (event) => {
     event.preventDefault();
 
-    let isSuccessful = true;
+    const newContact = {
+      id: uuid(),
+      name: this.state.name,
+      email: this.state.email,
+      description: this.state.description,
+    };
+
+    const response = await axios.post(
+      "http://127.0.0.1:9000/api/contact",
+      newContact
+    );
+    const isSuccessful = response.data.isSuccessful;
+
     const { name } = this.state;
 
     if (isSuccessful) {
