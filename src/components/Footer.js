@@ -46,6 +46,21 @@ function Footer() {
             <Link to="/" className="text-light d-block">
               Home
             </Link>
+            <Link
+              to="/blog/add"
+              className=" d-block"
+              style={{ color: "black" }}
+            >
+              i
+            </Link>
+
+            <Link
+              to="/project/add"
+              className=" d-block"
+              style={{ color: "black" }}
+            >
+              i
+            </Link>
           </div>
           <div className="col-12 col-md-4 text-light text-justify py-3">
             My name is Arbind Lochan Mishra, and my portfolio is a

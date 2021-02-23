@@ -41,8 +41,7 @@ export class Provider extends Component {
         id: 2,
         title: "Security in Google Cloud Platform",
         imageUrl: require("./components/certificates/2.png"),
-        excerpt:
-          "This course that me a lot about basics of Cloud Security......",
+        excerpt: "This course that me about basics of Cloud Security......",
       },
       {
         id: 3,
@@ -52,11 +51,36 @@ export class Provider extends Component {
           "This course that me a lot about basics of Cyber Security......",
       },
       {
-        id: 3,
-        title: "IT fundamentals for Cyber Security",
-        imageUrl: require("./components/certificates/3.png"),
+        id: 4,
+        title: "Internet Connection: How to get Online?",
+        imageUrl: require("./components/certificates/4.png"),
+        excerpt: "This course that me a lot about basics of Networking......",
+      },
+      {
+        id: 5,
+        title: "App Development using Java",
+        imageUrl: require("./components/certificates/5.png"),
+        excerpt: "This course that me how to build android apps......",
+      },
+      {
+        id: 6,
+        title: "Learn Python Programming Masterclass",
+        imageUrl: require("./components/certificates/6.png"),
         excerpt:
-          "This course that me a lot about basics of Cyber Security......",
+          "This course that me from basic of python to GUI development......",
+      },
+      {
+        id: 7,
+        title: "Ethical Hacking",
+        imageUrl: require("./components/certificates/7.png"),
+        excerpt: "This course that me about hacking various system......",
+      },
+      {
+        id: 8,
+        title: "Web Development",
+        imageUrl: require("./components/certificates/8.png"),
+        excerpt:
+          "This course that me about full stack web development using react and node.",
       },
     ],
     projects: [
@@ -141,6 +165,13 @@ export class Provider extends Component {
         company: "ABC company",
         designation: "Director",
         message: "He is a nice person",
+      },
+      {
+        id: 3,
+        name: "Random guy 3",
+        company: "ABC company",
+        designation: "Director",
+        message: "He completes the work fastly",
       },
     ],
     skills: [
