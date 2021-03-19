@@ -24,6 +24,9 @@ function Footer() {
             >
               Certificates
             </Link>
+            <a href="http://bit.ly/3r1mwt0" style={{ color: "white" }}>
+              Resume
+            </a>
             <Link
               to="/allprojects"
               className=" text-light font-weight h6 mx-1 my-auto d-block"
