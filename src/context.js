@@ -33,50 +33,59 @@ export class Provider extends Component {
     certificates: [
       {
         id: 1,
+        title: "IBM Cybersecurity Analist",
+        imageUrl: require("./components/certificates/9.png"),
+        excerpt:
+          "This course that me about how security is foolowed in industry......",
+        link:
+          "https://www.coursera.org/account/accomplishments/specialization/certificate/E62C7FBS4XGY",
+      },
+      {
+        id: 2,
         title: "Google IT Support Specialzation",
         imageUrl: require("./components/certificates/1.png"),
         excerpt: "This course that me a lot about basics of IT......",
       },
       {
-        id: 2,
+        id: 3,
         title: "Security in Google Cloud Platform",
         imageUrl: require("./components/certificates/2.png"),
         excerpt: "This course that me about basics of Cloud Security......",
       },
       {
-        id: 3,
+        id: 4,
         title: "IT fundamentals for Cyber Security",
         imageUrl: require("./components/certificates/3.png"),
         excerpt:
           "This course that me a lot about basics of Cyber Security......",
       },
       {
-        id: 4,
+        id: 5,
         title: "Internet Connection: How to get Online?",
         imageUrl: require("./components/certificates/4.png"),
         excerpt: "This course that me a lot about basics of Networking......",
       },
       {
-        id: 5,
+        id: 6,
         title: "App Development using Java",
         imageUrl: require("./components/certificates/5.png"),
         excerpt: "This course that me how to build android apps......",
       },
       {
-        id: 6,
+        id: 7,
         title: "Learn Python Programming Masterclass",
         imageUrl: require("./components/certificates/6.png"),
         excerpt:
           "This course that me from basic of python to GUI development......",
       },
       {
-        id: 7,
+        id: 8,
         title: "Ethical Hacking",
         imageUrl: require("./components/certificates/7.png"),
         excerpt: "This course that me about hacking various system......",
       },
       {
-        id: 8,
+        id: 9,
         title: "Web Development",
         imageUrl: require("./components/certificates/8.png"),
         excerpt:
@@ -172,6 +181,13 @@ export class Provider extends Component {
         company: "ABC company",
         designation: "Director",
         message: "He completes the work fastly",
+      },
+    ],
+    badges: [
+      {
+        id: "7b5e2d23-1290-4465-8b27-0fd1ce0ef7cb",
+        width: 150,
+        height: 270,
       },
     ],
     skills: [

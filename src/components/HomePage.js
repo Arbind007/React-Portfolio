@@ -15,6 +15,7 @@ function HomePage() {
       <SkillsSection />
       <CertificateSection />
       <ProjectSection />
+
       <About />
       <BlogSection />
     </div>
