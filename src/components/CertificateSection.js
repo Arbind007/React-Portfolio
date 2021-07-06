@@ -1,5 +1,4 @@
 import React from "react";
-import Certificatecard from "./CertificateCard";
 import { Consumer } from "../context";
 import { Link } from "react-router-dom";
 import CertificateCard from "./CertificateCard";

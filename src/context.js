@@ -47,6 +47,12 @@ export class Provider extends Component {
         excerpt: "This course that me a lot about basics of IT......",
       },
       {
+        id: 10,
+        title: "Building Modern Python Applications on AWS",
+        imageUrl: require("./components/certificates/10.png"),
+        excerpt: "Learnt about varios AWS SDK tools and lambda functions....",
+      },
+      {
         id: 3,
         title: "Security in Google Cloud Platform",
         imageUrl: require("./components/certificates/2.png"),
