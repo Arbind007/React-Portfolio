@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { v4 as uuid } from "uuid";
-import axios from "axios";
+import emailjs from 'emailjs-com';
+// import { v4 as uuid } from "uuid";
+// import axios from "axios";
 
 class Contact extends Component {
   state = {
@@ -17,35 +18,36 @@ class Contact extends Component {
     });
   };
 
-  onSubmit = async (event) => {
-    event.preventDefault();
-
-    const newContact = {
-      id: uuid(),
-      name: this.state.name,
-      email: this.state.email,
-      description: this.state.description,
-    };
-
-    const response = await axios.post(
-      "http://192.168.29.154:9000/api/contact",
-      newContact
-    );
-    const isSuccessful = response.data.isSuccessful;
-
+  onSubmit = (e) => {
     const { name } = this.state;
+    
+  
+    e.preventDefault();    
 
-    if (isSuccessful) {
+    emailjs.sendForm('service_y8nzed6', 'template_8d8dr5u', e.target, 'user_EGPVLpCSKieaaR2pGLFr0')
+      .then((result) => {
+          const isSuccessful = true;
+
+    if (isSuccessful ) {
       this.setState({
         submitMessage: `Thank you ${name}. I will contact you soon!`,
         submitMessageTextColor: "text-info",
       });
     } else {
       this.setState({
-        submitMessage: "Oops! Something went wrong. Please try again later :(",
+        submitMessage: "Oops! Something went wrong. Please try again later :(. Please fill all the required fields",
         submitMessageTextColor: "text-danger",
       });
     }
+      }, (error) => {
+          console.log(error.text);
+          this.setState({
+            submitMessage: `Oops! Something went wrong. Please try again later :( , Error : ${error.text} `,
+            submitMessageTextColor: "text-danger",
+          });
+      }
+    );
+    
   };
 
   render() {
@@ -62,7 +64,7 @@ class Contact extends Component {
                 <label htmlFor="name">Name *</label>
                 <input
                   type="text"
-                  name="name"
+                  name="from_name"
                   className="form-control"
                   onChange={this.onChange}
                 />
@@ -71,18 +73,27 @@ class Contact extends Component {
                 <label htmlFor="email">Email *</label>
                 <input
                   type="email"
-                  name="email"
+                  name="from_email"
+                  className="form-control"
+                  onChange={this.onChange}
+                />
+                <div className="form-group my-2">
+                <label htmlFor="subject">Subject *</label>
+                <input
+                  type="subject"
+                  name="subject"
                   className="form-control"
                   onChange={this.onChange}
                 />
               </div>
+              </div>
               <div className="form-group">
                 <label htmlFor="description">
-                  Tell me about your project *
+                  Message you want to send *
                 </label>
                 <textarea
                   className="form-control"
-                  name="description"
+                  name="message"
                   rows="5"
                   onChange={this.onChange}
                 ></textarea>

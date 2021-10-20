@@ -188,6 +188,13 @@ export class Provider extends Component {
         designation: "Director",
         message: "He completes the work fastly",
       },
+      {
+        id: 4,
+        name: "Random guy 4",
+        company: "ABC company",
+        designation: "Manager",
+        message: "He is a good engineer",
+      },
     ],
     badges: [
       {
