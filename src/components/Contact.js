@@ -19,9 +19,7 @@ class Contact extends Component {
   };
 
   onSubmit = (e) => {
-    const { name } = this.state;
-    
-  
+    const { from_name } = this.state;
     e.preventDefault();    
 
     emailjs.sendForm('service_y8nzed6', 'template_8d8dr5u', e.target, 'user_EGPVLpCSKieaaR2pGLFr0')
@@ -30,7 +28,7 @@ class Contact extends Component {
 
     if (isSuccessful ) {
       this.setState({
-        submitMessage: `Thank you ${name}. I will contact you soon!`,
+        submitMessage: `Thank you ${from_name}, I will contact you soon!`,
         submitMessageTextColor: "text-info",
       });
     } else {
@@ -63,7 +61,7 @@ class Contact extends Component {
               <div className="form-group">
                 <label htmlFor="name">Name *</label>
                 <input
-                  type="text"
+                  type="name"
                   name="from_name"
                   className="form-control"
                   onChange={this.onChange}
@@ -81,7 +79,7 @@ class Contact extends Component {
                 <label htmlFor="subject">Subject *</label>
                 <input
                   type="subject"
-                  name="subject"
+                  name="from_subject"
                   className="form-control"
                   onChange={this.onChange}
                 />

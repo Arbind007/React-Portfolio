@@ -2,6 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Footer() {
+  function MouseOver(event) {
+    event.target.style.color = 'black';
+  }
+  function MouseOut(event){
+    event.target.style.color="white";
+  }
   return (
     <footer>
       <div
@@ -10,7 +16,9 @@ function Footer() {
       >
         <div className="py-5">
           <h2 className="text-light">Interested in working with me?</h2>
-          <button className="btn btn-outline-light btl-lg">Let's talk</button>
+          <button onMouseOver={MouseOver} onMouseOut={MouseOut} className="btn btn-outline-light btl-lg"><Link to="/contact" className="d-block" style={{color:"white"}}>
+              Lets Talk
+            </Link></button>
         </div>
         <div className="row">
           <div className="col-12 col-md-4 py-3">

@@ -6,6 +6,7 @@ import SkillsSection from "./SkillsSection";
 import RecommendationSection from "./RecommendationSection";
 import Title from "./Title";
 import About from "./About";
+import Badge from "./badge";
 
 function HomePage() {
   return (
@@ -15,7 +16,7 @@ function HomePage() {
       <SkillsSection />
       <CertificateSection />
       <ProjectSection />
-
+      {/* <Badge/> */}
       <About />
       <BlogSection />
     </div>

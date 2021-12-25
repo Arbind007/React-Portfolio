@@ -7,8 +7,8 @@ function Title(props) {
   const { name, leadText } = props;
 
   return (
-    <div className="container hello">
-      <div className="row text-center align-items-center my-5 py-5">
+    <div className="container hello" >
+      <div className="row text-center align-items-center my-5 py-5" >
         <div className="col-12 col-md-6 ">
           <div className="hey">
             <img

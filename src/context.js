@@ -34,7 +34,7 @@ export class Provider extends Component {
       {
         id: 1,
         title: "IBM Cybersecurity Analist",
-        imageUrl: require("./components/certificates/9.png"),
+        imageUrl: require("./components/certificates/9.png").default,
         excerpt:
           "This course that me about how security is foolowed in industry......",
         link:
@@ -43,57 +43,57 @@ export class Provider extends Component {
       {
         id: 2,
         title: "Google IT Support Specialzation",
-        imageUrl: require("./components/certificates/1.png"),
+        imageUrl: require("./components/certificates/1.png").default,
         excerpt: "This course that me a lot about basics of IT......",
       },
       {
         id: 10,
         title: "Building Modern Python Applications on AWS",
-        imageUrl: require("./components/certificates/10.png"),
+        imageUrl: require("./components/certificates/10.png").default,
         excerpt: "Learnt about varios AWS SDK tools and lambda functions....",
       },
       {
         id: 3,
         title: "Security in Google Cloud Platform",
-        imageUrl: require("./components/certificates/2.png"),
+        imageUrl: require("./components/certificates/2.png").default,
         excerpt: "This course that me about basics of Cloud Security......",
       },
       {
         id: 4,
         title: "IT fundamentals for Cyber Security",
-        imageUrl: require("./components/certificates/3.png"),
+        imageUrl: require("./components/certificates/3.png").default,
         excerpt:
           "This course that me a lot about basics of Cyber Security......",
       },
       {
         id: 5,
         title: "Internet Connection: How to get Online?",
-        imageUrl: require("./components/certificates/4.png"),
+        imageUrl: require("./components/certificates/4.png").default,
         excerpt: "This course that me a lot about basics of Networking......",
       },
       {
         id: 6,
         title: "App Development using Java",
-        imageUrl: require("./components/certificates/5.png"),
+        imageUrl: require("./components/certificates/5.png").default,
         excerpt: "This course that me how to build android apps......",
       },
       {
         id: 7,
         title: "Learn Python Programming Masterclass",
-        imageUrl: require("./components/certificates/6.png"),
+        imageUrl: require("./components/certificates/6.png").default,
         excerpt:
           "This course that me from basic of python to GUI development......",
       },
       {
         id: 8,
         title: "Ethical Hacking",
-        imageUrl: require("./components/certificates/7.png"),
+        imageUrl: require("./components/certificates/7.png").default,
         excerpt: "This course that me about hacking various system......",
       },
       {
         id: 9,
         title: "Web Development",
-        imageUrl: require("./components/certificates/8.png"),
+        imageUrl: require("./components/certificates/8.png").default,
         excerpt:
           "This course that me about full stack web development using react and node.",
       },
@@ -102,7 +102,7 @@ export class Provider extends Component {
       {
         id: 1,
         title: "Obstacle avoider Robot",
-        imageUrl: require("./components/photo/projectpic1.jpeg"),
+        imageUrl: require("./components/photo/projectpic1.jpeg").default,
         excerpt: "Obstacle avoider and track following Robot",
         body:
           "This project uses Ultra Sonic Sensor to detect all the Obstacle around it and Takes the desision accordingly to move in the best possible direction, so that it can avoid obstacles and also follows track with the help of IR  sensor.",
@@ -110,7 +110,7 @@ export class Provider extends Component {
       {
         id: 2,
         title: "Black Jack game with Python",
-        imageUrl: require("./components/photo/projectpic2.jpeg"),
+        imageUrl: require("./components/photo/projectpic2.jpeg").default,
         excerpt: "Using Tkinter",
         body:
           "It uses randint fuction to generate random number each time and the app function exactly like Blackjack game.",
@@ -118,7 +118,7 @@ export class Provider extends Component {
       {
         id: 3,
         title: "Potfolio Web Site",
-        imageUrl: require("./components/photo/projectpic3.jpeg"),
+        imageUrl: require("./components/photo/projectpic3.jpeg").default,
         excerpt: "Protfolio Web Site using React",
         body:
           "It took me a while to make a web site.I have completed frontend end now I am learning more about Backend and Database, so I can make fully functional WebSite!",
@@ -126,7 +126,7 @@ export class Provider extends Component {
       {
         id: 4,
         title: "Project 4",
-        imageUrl: require("./components/photo/projectpic4.png"),
+        imageUrl: require("./components/photo/projectpic4.png").default,
         excerpt: "Music App",
         body:
           "You can control your music, and it plays the music stored in it!",
@@ -134,7 +134,7 @@ export class Provider extends Component {
       {
         id: 5,
         title: "Project Imperium",
-        imageUrl: require("./components/photo/projectpic5.jpeg"),
+        imageUrl: require("./components/photo/projectpic5.jpeg").default,
         excerpt: "Smart Board",
         body:
           "This project was deployed by our team in 1st year. We used Node Mcu to make the board start rather making the device smart.",
@@ -207,56 +207,56 @@ export class Provider extends Component {
       {
         id: 1,
         name: "HTML5",
-        imageUrl: require("./components/photo/html.png"),
+        imageUrl: require("./components/photo/html.png").default,
         starsTotal: 5,
         starsActive: 5,
       },
       {
         id: 2,
         name: "CSS3",
-        imageUrl: require("./components/photo/css.png"),
+        imageUrl: require("./components/photo/css.png").default,
         starsTotal: 5,
         starsActive: 4,
       },
       {
         id: 3,
         name: "Java Script",
-        imageUrl: require("./components/photo/javascript.png"),
+        imageUrl: require("./components/photo/javascript.png").default,
         starsTotal: 5,
         starsActive: 4,
       },
       {
         id: 4,
         name: "BootStrap",
-        imageUrl: require("./components/photo/bootstrap.png"),
+        imageUrl: require("./components/photo/bootstrap.png").default,
         starsTotal: 5,
         starsActive: 4,
       },
       {
         id: 5,
         name: "Python",
-        imageUrl: require("./components/photo/python.png"),
+        imageUrl: require("./components/photo/python.png").default,
         starsTotal: 5,
         starsActive: 5,
       },
       {
         id: 6,
         name: "SQL",
-        imageUrl: require("./components/photo/sql.png"),
+        imageUrl: require("./components/photo/sql.png").default,
         starsTotal: 5,
         starsActive: 4,
       },
       {
         id: 7,
         name: "PHP",
-        imageUrl: require("./components/photo/php.png"),
+        imageUrl: require("./components/photo/php.png").default,
         starsTotal: 5,
         starsActive: 2,
       },
       {
         id: 8,
         name: "Go",
-        imageUrl: require("./components/photo/go.png"),
+        imageUrl: require("./components/photo/go.png").default,
         starsTotal: 5,
         starsActive: 4,
       },
