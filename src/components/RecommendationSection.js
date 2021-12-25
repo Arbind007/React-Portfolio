@@ -15,7 +15,7 @@ function RecommendationSection() {
       .catch((err) => {
         console.log(err);
       });
-  });
+  },[]);
 
 return (
   <div className="container-fluid my-5">
