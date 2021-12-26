@@ -24,9 +24,7 @@ class Contact extends Component {
 
     emailjs.sendForm('service_y8nzed6', 'template_8d8dr5u', e.target, 'user_EGPVLpCSKieaaR2pGLFr0')
       .then((result) => {
-          const isSuccessful = true;
-
-    if (isSuccessful ) {
+    if (result.text == 'OK' ) {
       this.setState({
         submitMessage: `Thank you ${from_name}, I will contact you soon!`,
         submitMessageTextColor: "text-info",
