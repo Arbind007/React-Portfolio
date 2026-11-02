@@ -1,4 +1,5 @@
 export const LINKEDIN_URL = "https://www.linkedin.com/in/arbindlochanmishra/";
+export const GITHUB_URL = "https://github.com/Arbind007";
 
 export const profile = {
   name: "Arbind Lochan Mishra",
