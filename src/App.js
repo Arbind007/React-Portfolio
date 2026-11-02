@@ -14,35 +14,110 @@ function ButtonLink({ to, children, variant = "primary" }) { return <Link to={to
 
 const nav = [["/about", "About"], ["/work", "Work"], ["/expertise", "Expertise"], ["/projects", "Projects"], ["/writing", "Writing"], ["/resume", "Resume"], ["/lab", "Lab"], ["/contact", "Contact"]];
 function useReveal() { useEffect(() => { const nodes = document.querySelectorAll(".reveal"); if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { nodes.forEach((node) => node.classList.add("is-visible")); return undefined; } const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add("is-visible"); }), { threshold: 0.12 }); nodes.forEach((node) => observer.observe(node)); return () => observer.disconnect(); }); }
+function useMotionSurface() { useEffect(() => { const root = document.documentElement; const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; const coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches; if (reduced || coarse) return undefined; const move = (event) => { root.style.setProperty("--pointer-x", `${event.clientX}px`); root.style.setProperty("--pointer-y", `${event.clientY}px`); }; const scroll = () => { const max = document.documentElement.scrollHeight - window.innerHeight; root.style.setProperty("--scroll-progress", `${max > 0 ? (window.scrollY / max) : 0}`); }; window.addEventListener("pointermove", move, { passive: true }); window.addEventListener("scroll", scroll, { passive: true }); scroll(); return () => { window.removeEventListener("pointermove", move); window.removeEventListener("scroll", scroll); }; }, []); }
+function MotionLayer() { useMotionSurface(); return <><div className="scroll-progress" aria-hidden="true" /><div className="cursor-glow" aria-hidden="true" /></>; }
 function Meta({ title, description }) { useEffect(() => { document.title = `${title} — ${profile.name}`; const meta = document.querySelector('meta[name="description"]'); if (meta) meta.setAttribute("content", description); }, [title, description]); return null; }
 function SiteHeader({ path }) { const [open, setOpen] = useState(false); return <header className="site-header"><Link to="/" className="logo" onClick={() => setOpen(false)}><span className="logo-orb">A<span>·</span></span><span>{profile.name}</span></Link><button className="menu-toggle" aria-label="Toggle navigation" aria-expanded={open} onClick={() => setOpen(!open)}><i /><i /></button><nav className={`site-nav ${open ? "open" : ""}`} aria-label="Primary navigation">{nav.map(([to, label]) => <Link key={to} to={to} className={path === to || path.startsWith(`${to}/`) ? "active" : ""} onClick={() => setOpen(false)}>{label}</Link>)}<a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className="nav-social">LinkedIn <ExternalMark /></a></nav></header>; }
 function Footer() { return <footer className="footer"><span>© {new Date().getFullYear()} {profile.name}</span><span>Identity security / IAM / cybersecurity</span><a href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn <ExternalMark /></a></footer>; }
-function PageFrame({ path, children }) { useReveal(); return <><SiteHeader path={path} /><main className="page-enter">{children}</main><Footer /></>; }
+function PageFrame({ path, children }) { useReveal(); return <><MotionLayer /><SiteHeader path={path} /><main className="page-enter">{children}</main><Footer /></>; }
 function PageHero({ eyebrow, title, intro, aside }) { return <section className="page-hero shell"><div className="page-hero-copy reveal"><span className="eyebrow">{eyebrow}</span><h1>{title}</h1>{intro && <p>{intro}</p>}</div>{aside && <div className="page-hero-aside reveal reveal-delay">{aside}</div>}</section>; }
 function SectionHeader({ eyebrow, title, copy }) { return <div className="section-header shell reveal"><span className="eyebrow">{eyebrow}</span><h2>{title}</h2>{copy && <p>{copy}</p>}</div>; }
-function Marquee({ children }) { return <div className="marquee" aria-hidden="true"><div>{children} <span>✳</span> {children} <span>✳</span> {children}</div></div>; }
+function Marquee({ children }) { const Group = () => <span className="marquee-group">{Array.from({ length: 8 }).map((_, index) => <React.Fragment key={index}><span>{children}</span><b>✳</b></React.Fragment>)}</span>; return <div className="marquee" aria-hidden="true"><div className="marquee-track"><Group /><Group /></div></div>; }
 
 function ThreeNetwork() {
   const [enhanced, setEnhanced] = useState(false);
   useEffect(() => {
-    const mount = document.getElementById("identity-network"); const THREE = window.THREE; const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mount = document.getElementById("identity-network");
+    const stage = mount && mount.parentElement;
+    const liveLabels = stage ? Array.from(stage.querySelectorAll(".network-live-label")) : [];
+    const THREE = window.THREE;
+    const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!mount || !THREE || reduced || !window.WebGLRenderingContext) return undefined;
-    let renderer; let frame; let disposed = false;
+    let renderer; let frame; let disposed = false; const labelTextures = []; const labelSprites = []; const animatedNodes = []; const animatedLines = [];
     try {
-      const scene = new THREE.Scene(); const camera = new THREE.PerspectiveCamera(42, mount.clientWidth / mount.clientHeight, 0.1, 100); camera.position.set(0, 0, 10); renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }); renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5)); renderer.setSize(mount.clientWidth, mount.clientHeight); mount.appendChild(renderer.domElement); setEnhanced(true);
-      const group = new THREE.Group(); scene.add(group); const nodeData = [{ position: [0, 0, 0], color: 0xd5f568, size: .32 }, { position: [-3, 1.2, .2], color: 0x8ce6d1, size: .16 }, { position: [2.7, 1.8, -.4], color: 0x8ce6d1, size: .18 }, { position: [3, -1.2, .2], color: 0xb8a7ff, size: .14 }, { position: [-2.5, -1.8, .1], color: 0xb8a7ff, size: .14 }, { position: [.6, 2.7, -.5], color: 0xd5f568, size: .13 }];
-      nodeData.forEach((node) => { const mesh = new THREE.Mesh(new THREE.IcosahedronGeometry(node.size, 1), new THREE.MeshBasicMaterial({ color: node.color, transparent: true, opacity: .95 })); mesh.position.set(...node.position); group.add(mesh); const halo = new THREE.Mesh(new THREE.SphereGeometry(node.size * 2.2, 16, 16), new THREE.MeshBasicMaterial({ color: node.color, transparent: true, opacity: .08 })); halo.position.copy(mesh.position); group.add(halo); });
-      [[0,1],[0,2],[0,3],[0,4],[0,5],[1,4],[2,3],[5,2]].forEach(([a, b]) => { const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...nodeData[a].position), new THREE.Vector3(...nodeData[b].position)]), new THREE.LineBasicMaterial({ color: 0x87a89a, transparent: true, opacity: .35 })); group.add(line); });
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(42, mount.clientWidth / mount.clientHeight, 0.1, 100);
+      camera.position.set(0, 0, 10);
+      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+      renderer.setSize(mount.clientWidth, mount.clientHeight);
+      mount.appendChild(renderer.domElement);
+      if (stage) { stage.classList.remove("fallback"); stage.classList.add("enhanced"); }
+      setEnhanced(true);
+
+      const group = new THREE.Group();
+      scene.add(group);
+      const nodeData = [
+        { name: "ID", position: [0, 0, 0], labelOffset: [0, -.65, 0], color: 0xd5f568, size: .32 },
+        { name: "human", position: [-3, 1.2, .2], labelOffset: [-.72, 0, 0], color: 0x8ce6d1, size: .16 },
+        { name: "idp", position: [2.7, 1.8, -.4], labelOffset: [.7, 0, 0], color: 0x8ce6d1, size: .18 },
+        { name: "policy", position: [3, -1.2, .2], labelOffset: [.85, 0, 0], color: 0xb8a7ff, size: .14 },
+        { name: "api", position: [-2.5, -1.8, .1], labelOffset: [-.6, 0, 0], color: 0xb8a7ff, size: .14 },
+        { name: "agent", position: [.6, 2.7, -.5], labelOffset: [.15, .45, 0], color: 0xd5f568, size: .13 },
+      ];
+      const makeLabel = (text, color) => {
+        const canvas = document.createElement("canvas"); canvas.width = 256; canvas.height = 64;
+        const context = canvas.getContext("2d"); context.font = "500 22px monospace"; context.fillStyle = `#${color.toString(16).padStart(6, "0")}`; context.fillText(text, 8, 40);
+        const texture = new THREE.CanvasTexture(canvas); texture.minFilter = THREE.LinearFilter; labelTextures.push(texture);
+        const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: 0, depthTest: false })); sprite.scale.set(text === "ID" ? .8 : 1.25, .3, 1); return sprite;
+      };
+      nodeData.forEach((node, index) => {
+        const mesh = new THREE.Mesh(new THREE.IcosahedronGeometry(node.size, 1), new THREE.MeshBasicMaterial({ color: node.color, transparent: true, opacity: .95 })); mesh.position.set(...node.position); group.add(mesh);
+        const halo = new THREE.Mesh(new THREE.SphereGeometry(node.size * 2.2, 16, 16), new THREE.MeshBasicMaterial({ color: node.color, transparent: true, opacity: .08 })); halo.position.copy(mesh.position); group.add(halo);
+        const label = makeLabel(node.name, node.color); label.position.set(node.position[0] + node.labelOffset[0], node.position[1] + node.labelOffset[1], node.position[2] + node.labelOffset[2]); labelSprites.push(label); group.add(label);
+        animatedNodes.push({ mesh, halo, label, node, phase: index * 1.07, radius: index === 0 ? .12 : .32 + (index % 3) * .07, labelOrbit: index === 0 ? .08 : .45 + (index % 2) * .08 });
+      });
+      [[0,1],[0,2],[0,3],[0,4],[0,5],[1,4],[2,3],[5,2]].forEach(([a, b]) => { const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...nodeData[a].position), new THREE.Vector3(...nodeData[b].position)]), new THREE.LineBasicMaterial({ color: 0x87a89a, transparent: true, opacity: .35 })); animatedLines.push({ line, a: animatedNodes[a].mesh, b: animatedNodes[b].mesh }); group.add(line); });
       const particlePositions = new Float32Array(120 * 3); for (let i = 0; i < particlePositions.length; i += 3) { particlePositions[i] = (Math.random() - .5) * 11; particlePositions[i + 1] = (Math.random() - .5) * 8; particlePositions[i + 2] = (Math.random() - .5) * 4; } const particles = new THREE.Points(new THREE.BufferGeometry(), new THREE.PointsMaterial({ color: 0x8ce6d1, size: .025, transparent: true, opacity: .55 })); particles.geometry.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3)); scene.add(particles);
       const pointer = { x: 0, y: 0 }; const onMove = (event) => { pointer.x = (event.clientX / window.innerWidth - .5) * 2; pointer.y = (event.clientY / window.innerHeight - .5) * 2; }; window.addEventListener("pointermove", onMove); const resize = () => { if (!renderer || !mount.clientWidth) return; camera.aspect = mount.clientWidth / mount.clientHeight; camera.updateProjectionMatrix(); renderer.setSize(mount.clientWidth, mount.clientHeight); }; window.addEventListener("resize", resize);
-      const animate = () => { if (disposed) return; frame = window.requestAnimationFrame(animate); group.rotation.y += .0009; group.rotation.x += (pointer.y * .03 - group.rotation.x) * .02; group.position.x += (pointer.x * .25 - group.position.x) * .02; particles.rotation.y -= .0003; renderer.render(scene, camera); }; animate();
-      return () => { disposed = true; window.cancelAnimationFrame(frame); window.removeEventListener("pointermove", onMove); window.removeEventListener("resize", resize); renderer.dispose(); if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement); };
-    } catch (error) { setEnhanced(false); return undefined; }
+      let elapsed = 0; let previousTime = performance.now();
+      const animate = (time) => {
+        if (disposed) return;
+        frame = window.requestAnimationFrame(animate);
+        elapsed += Math.min((time - previousTime) / 1000, .05);
+        previousTime = time;
+        group.rotation.y = elapsed * .5;
+        group.rotation.z = Math.sin(elapsed * .8) * .12;
+        group.rotation.x += (pointer.y * .05 - group.rotation.x) * .025;
+        group.position.x += (pointer.x * .35 - group.position.x) * .025;
+        animatedNodes.forEach(({ mesh, halo, label, node, phase, radius, labelOrbit }) => {
+          const orbit = elapsed * (.7 + (phase % 3) * .08) + phase;
+          const driftX = Math.cos(orbit) * radius;
+          const driftY = Math.sin(orbit * 1.12) * radius;
+          mesh.position.set(node.position[0] + driftX, node.position[1] + driftY, node.position[2] + Math.sin(orbit * .8) * radius * .45);
+          halo.position.copy(mesh.position);
+          const labelAngle = elapsed * 1.15 + phase;
+          label.position.set(mesh.position.x + node.labelOffset[0] + Math.cos(labelAngle) * labelOrbit, mesh.position.y + node.labelOffset[1] + Math.sin(labelAngle) * labelOrbit, mesh.position.z + node.labelOffset[2]);
+          label.material.rotation = Math.sin(elapsed * 1.5 + phase) * .45;
+          const pulse = 1 + Math.sin(elapsed * 2 + phase) * .1;
+          mesh.scale.setScalar(pulse);
+        });
+        animatedLines.forEach(({ line, a, b }) => {
+          const positions = line.geometry.attributes.position.array;
+          positions[0] = a.position.x; positions[1] = a.position.y; positions[2] = a.position.z;
+          positions[3] = b.position.x; positions[4] = b.position.y; positions[5] = b.position.z;
+          line.geometry.attributes.position.needsUpdate = true;
+        });
+        liveLabels.forEach((label, index) => {
+          const labelAngle = elapsed * (1.1 + index * .08) + index * 1.4;
+          const x = Math.cos(labelAngle) * (18 + index * 3);
+          const y = Math.sin(labelAngle * 1.15) * (13 + index * 2);
+          const rotation = Math.sin(labelAngle) * 8;
+          label.style.transform = index === 4
+            ? `translate3d(calc(-50% + ${x}px), ${y}px, 0) rotate(${rotation}deg)`
+            : `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg)`;
+        });
+        particles.rotation.y -= .0015;
+        renderer.render(scene, camera);
+      };
+      frame = window.requestAnimationFrame(animate);
+      return () => { disposed = true; window.cancelAnimationFrame(frame); window.removeEventListener("pointermove", onMove); window.removeEventListener("resize", resize); labelTextures.forEach((texture) => texture.dispose()); renderer.dispose(); if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement); if (stage) { stage.classList.remove("enhanced"); stage.classList.add("fallback"); } };
+    } catch (error) { if (stage) { stage.classList.remove("enhanced"); stage.classList.add("fallback"); } setEnhanced(false); return undefined; }
   }, []);
-  return <div className={`network-stage ${enhanced ? "enhanced" : "fallback"}`}><div id="identity-network" /><div className="network-fallback-art"><span className="network-core">ID</span><i /><i /><i /><i /><b>human</b><b>idp</b><b>policy</b><b>agent</b></div><div className="network-caption"><span>01 / identity ecosystem</span><span>interactive system map ↗</span></div></div>;
+  return <div className={`network-stage ${enhanced ? "enhanced" : "fallback"}`}><div id="identity-network" /><div className="network-live-labels" aria-hidden="true"><span className="network-live-label network-label-human">human</span><span className="network-live-label network-label-idp">idp</span><span className="network-live-label network-label-policy">policy</span><span className="network-live-label network-label-api">api</span><span className="network-live-label network-label-agent">agent</span></div><div className="network-fallback-art"><span className="network-core">ID</span><i /><i /><i /><i /><b>human</b><b>idp</b><b>policy</b><b>agent</b></div><div className="network-caption"><span>01 / identity ecosystem</span><span>interactive system map ↗</span></div></div>;
 }
 
-function ProjectTeaser({ project, index }) { return <Link to={`/projects/${project.slug}`} className={`project-teaser project-tone-${index + 1} reveal`}><div className="teaser-art"><span>{project.code}</span><div className="teaser-lines" /><b>{project.diagramLabel}</b></div><div className="teaser-copy"><span className="eyebrow">{project.category}</span><h3>{project.title}</h3><p>{project.excerpt}</p><div className="teaser-footer"><span>{project.stack.slice(0, 3).join(" · ")}</span><Arrow /></div></div></Link>; }
+function ProjectTeaser({ project, index }) { const onMove = (event) => { const rect = event.currentTarget.getBoundingClientRect(); const x = ((event.clientX - rect.left) / rect.width - .5) * 4; const y = ((event.clientY - rect.top) / rect.height - .5) * -4; event.currentTarget.style.setProperty("--tilt-x", `${x}deg`); event.currentTarget.style.setProperty("--tilt-y", `${y}deg`); }; const reset = (event) => { event.currentTarget.style.setProperty("--tilt-x", "0deg"); event.currentTarget.style.setProperty("--tilt-y", "0deg"); }; return <Link to={`/projects/${project.slug}`} onPointerMove={onMove} onPointerLeave={reset} className={`project-teaser project-tone-${index + 1} reveal`}><div className="teaser-art"><span>{project.code}</span><div className="teaser-lines" /><b>{project.diagramLabel}</b></div><div className="teaser-copy"><span className="eyebrow">{project.category}</span><h3>{project.title}</h3><p>{project.excerpt}</p><div className="teaser-footer"><span>{project.stack.slice(0, 3).join(" · ")}</span><Arrow /></div></div></Link>; }
 function ArticleTeaser({ article }) { return <Link to={`/writing/${article.slug}`} className="article-teaser reveal"><span className="article-date">{article.date}</span><div><span className="eyebrow">{article.category}</span><h3>{article.title}</h3><p>{article.excerpt}</p></div><Arrow /></Link>; }
 
 function Home() { return <><Meta title="Home" description="Arbind Lochan Mishra — identity security and IAM professional portfolio." /><section className="home-hero shell"><div className="home-hero-copy reveal"><span className="eyebrow"><i className="live-dot" /> Identity security / cybersecurity</span><h1>Building the identity layer behind <em>secure digital experiences.</em></h1><p>{profile.summary}</p><div className="hero-actions"><ButtonLink to="/projects">View projects</ButtonLink><ButtonLink to="/about" variant="ghost">Explore my journey</ButtonLink></div><div className="hero-links"><a href={LINKEDIN_URL} target="_blank" rel="noreferrer">LinkedIn <ExternalMark /></a><Link to="/contact">Start a conversation <Arrow /></Link></div></div><div className="home-hero-visual reveal reveal-delay"><ThreeNetwork /></div></section><Marquee>IDENTITY IS THE NEW PERIMETER</Marquee><section className="snapshot shell"><SectionHeader eyebrow="02 / professional snapshot" title="A systems thinker for the identity layer." copy="I work where security architecture meets practical delivery: turning identity decisions into reliable, auditable workflows." /><div className="snapshot-grid">{profile.snapshot.map((item) => <div className="snapshot-item reveal" key={item.label}><strong>{item.value}</strong><span>{item.label}</span></div>)}</div></section><section className="home-feature shell"><SectionHeader eyebrow="03 / featured expertise" title="The connective tissue between people and systems." copy="Capability areas are grouped by the problems they solve, not by a wall of logos." /><div className="feature-rail">{expertiseGroups.slice(0, 4).map((group, index) => <Link to="/expertise" className="feature-item reveal" key={group.title}><span>0{index + 1}</span><h3>{group.title}</h3><p>{group.short}</p><Arrow /></Link>)}</div></section><section className="home-projects"><SectionHeader eyebrow="04 / featured projects" title="Selected work, built with intent." copy="A few case studies from identity automation, governance, integration, and emerging security research." /><div className="project-teasers shell">{projects.slice(0, 3).map((project, index) => <ProjectTeaser project={project} index={index} key={project.slug} />)}</div><div className="center-cta"><ButtonLink to="/projects" variant="ghost">View all projects</ButtonLink></div></section><section className="home-writing shell"><SectionHeader eyebrow="05 / latest writing" title="Notes from the identity frontier." /><div className="writing-list">{articles.slice(0, 3).map((article) => <ArticleTeaser article={article} key={article.slug} />)}</div></section><section className="closing-cta shell"><div className="closing-copy reveal"><span className="eyebrow">06 / next conversation</span><h2>Let’s build more <em>secure identity ecosystems.</em></h2><ButtonLink to="/contact">Get in touch</ButtonLink></div></section></>; }
