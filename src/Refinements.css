@@ -211,7 +211,7 @@
 
 .work-hero h1 {
   font-family: var(--display);
-  font-size: clamp(3.6rem, 6.2vw, 7.3rem);
+  font-size: clamp(3rem, 3.8vw, 4.5rem);
   font-weight: 500;
   letter-spacing: -0.075em;
   line-height: 0.91;
@@ -991,7 +991,7 @@
 
 @media (max-width: 680px) {
   .work-hero { gap: 1rem; padding-bottom: 5rem; }
-  .work-hero h1 { font-size: clamp(3.2rem, 14vw, 5.3rem); }
+  .work-hero h1 { font-size: clamp(2.4rem, 8.5vw, 3.7rem); line-height: 0.98; max-width: 15ch; }
   .work-hero-actions,
   .work-closing-actions { align-items: flex-start; flex-direction: column; }
   .work-identity-orbit { height: 17rem; }
