@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import "./Refinements.css";
 import { profile, LINKEDIN_URL } from "./data/profile";
 import { projects } from "./data/projects";
 import { articles } from "./data/articles";
@@ -30,6 +31,7 @@ function ThreeNetwork() {
     const mount = document.getElementById("identity-network");
     const stage = mount && mount.parentElement;
     const liveLabels = stage ? Array.from(stage.querySelectorAll(".network-live-label")) : [];
+    liveLabels.forEach((label) => { label.style.fontSize = "0.7rem"; });
     const THREE = window.THREE;
     const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!mount || !THREE || reduced || !window.WebGLRenderingContext) return undefined;
@@ -47,6 +49,20 @@ function ThreeNetwork() {
 
       const group = new THREE.Group();
       scene.add(group);
+      const orbitalRings = [];
+      [
+        { x: 3.25, y: 2.15, tilt: [.02, .04, .16], opacity: .28, speed: .025 },
+        { x: 2.65, y: 1.65, tilt: [-.06, .08, -.35], opacity: .34, speed: -.018 },
+        { x: 2.05, y: 1.1, tilt: [.1, -.08, .5], opacity: .25, speed: .032 },
+        { x: 1.25, y: .65, tilt: [-.05, .05, -.2], opacity: .22, speed: -.04 },
+      ].forEach((orbit, index) => {
+        const curve = new THREE.EllipseCurve(0, 0, orbit.x, orbit.y, 0, Math.PI * 2, false, 0);
+        const points = curve.getPoints(96).map((point) => new THREE.Vector3(point.x, point.y, 0));
+        const ring = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color: 0x78d7ce, transparent: true, opacity: orbit.opacity }));
+        ring.rotation.set(...orbit.tilt);
+        group.add(ring);
+        orbitalRings.push({ ring, base: orbit.tilt, phase: index * .9, speed: orbit.speed });
+      });
       const nodeData = [
         { name: "ID", position: [0, 0, 0], labelOffset: [0, -.65, 0], color: 0xd5f568, size: .32 },
         { name: "human", position: [-3, 1.2, .2], labelOffset: [-.72, 0, 0], color: 0x8ce6d1, size: .16 },
@@ -65,7 +81,7 @@ function ThreeNetwork() {
         const mesh = new THREE.Mesh(new THREE.IcosahedronGeometry(node.size, 1), new THREE.MeshBasicMaterial({ color: node.color, transparent: true, opacity: .95 })); mesh.position.set(...node.position); group.add(mesh);
         const halo = new THREE.Mesh(new THREE.SphereGeometry(node.size * 2.2, 16, 16), new THREE.MeshBasicMaterial({ color: node.color, transparent: true, opacity: .08 })); halo.position.copy(mesh.position); group.add(halo);
         const label = makeLabel(node.name, node.color); label.position.set(node.position[0] + node.labelOffset[0], node.position[1] + node.labelOffset[1], node.position[2] + node.labelOffset[2]); labelSprites.push(label); group.add(label);
-        animatedNodes.push({ mesh, halo, label, node, phase: index * 1.07, radius: index === 0 ? .12 : .32 + (index % 3) * .07, labelOrbit: index === 0 ? .08 : .45 + (index % 2) * .08 });
+        animatedNodes.push({ mesh, halo, label, node, phase: index * 1.07, radius: index === 0 ? .06 : .1 + (index % 3) * .035, labelOrbit: index === 0 ? .05 : .16 + (index % 2) * .05 });
       });
       [[0,1],[0,2],[0,3],[0,4],[0,5],[1,4],[2,3],[5,2]].forEach(([a, b]) => { const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...nodeData[a].position), new THREE.Vector3(...nodeData[b].position)]), new THREE.LineBasicMaterial({ color: 0x87a89a, transparent: true, opacity: .35 })); animatedLines.push({ line, a: animatedNodes[a].mesh, b: animatedNodes[b].mesh }); group.add(line); });
       const particlePositions = new Float32Array(120 * 3); for (let i = 0; i < particlePositions.length; i += 3) { particlePositions[i] = (Math.random() - .5) * 11; particlePositions[i + 1] = (Math.random() - .5) * 8; particlePositions[i + 2] = (Math.random() - .5) * 4; } const particles = new THREE.Points(new THREE.BufferGeometry(), new THREE.PointsMaterial({ color: 0x8ce6d1, size: .025, transparent: true, opacity: .55 })); particles.geometry.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3)); scene.add(particles);
@@ -76,10 +92,15 @@ function ThreeNetwork() {
         frame = window.requestAnimationFrame(animate);
         elapsed += Math.min((time - previousTime) / 1000, .05);
         previousTime = time;
-        group.rotation.y = elapsed * .5;
-        group.rotation.z = Math.sin(elapsed * .8) * .12;
-        group.rotation.x += (pointer.y * .05 - group.rotation.x) * .025;
-        group.position.x += (pointer.x * .35 - group.position.x) * .025;
+        group.rotation.y = elapsed * .14;
+        group.rotation.z = Math.sin(elapsed * .45) * .035;
+        group.rotation.x += (pointer.y * .04 - group.rotation.x) * .025;
+        group.position.x += (pointer.x * .22 - group.position.x) * .025;
+        orbitalRings.forEach(({ ring, base, phase, speed }) => {
+          ring.rotation.x = base[0] + Math.sin(elapsed * .28 + phase) * .025;
+          ring.rotation.y = base[1] + Math.cos(elapsed * .22 + phase) * .035;
+          ring.rotation.z = base[2] + elapsed * speed;
+        });
         animatedNodes.forEach(({ mesh, halo, label, node, phase, radius, labelOrbit }) => {
           const orbit = elapsed * (.7 + (phase % 3) * .08) + phase;
           const driftX = Math.cos(orbit) * radius;
